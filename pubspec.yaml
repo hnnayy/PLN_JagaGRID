@@ -1,3 +1,4 @@
+
 name: flutter_application_2
 description: "A new Flutter project."
 publish_to: 'none'
@@ -22,6 +23,7 @@ flutter:
 
   assets:
     - assets/logo/logo.png
+    - assets/icons/
   
   fonts:
     - family: Poppins
@@ -70,3 +72,4 @@ flutter:
         - asset: assets/fonts/Poppins-ThinItalic.ttf
           weight: 100
           style: italic
+
