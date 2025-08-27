@@ -179,7 +179,7 @@ class HomePage extends StatelessWidget {
                     top: screenHeight * 0.03,
                     left: screenWidth * 0.03,
                     right: screenWidth * 0.03,
-                    bottom: screenHeight * 0.03,
+                    bottom: screenHeight * 0.15,
                   ),
                   child: Column(
                     children: [

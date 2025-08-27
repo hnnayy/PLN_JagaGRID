@@ -1,4 +1,3 @@
-// File ini sudah dipindah ke lib/navigation_menu.dart
 import 'package:flutter/material.dart';
 import 'page/home_page.dart';
 import 'page/peta_pohon/map_page.dart';
@@ -15,8 +14,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    const MapPage(),  // Diubah ke const untuk optimasi
-    const Center(child: Text('Page 3')),  // Bisa diganti dengan halaman sebenarnya
+    const MapPage(),
+    const Center(child: Text('Page 3')),
     const Center(child: Text('Page 4')),
     const Center(child: Text('Page 5')),
   ];
@@ -32,12 +31,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
     return Scaffold(
       body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: Container(
+        height: 70, // Slightly taller than default (~56px)
         decoration: BoxDecoration(
-          color: const Color(0xFFE8FBF9),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(32),
-            topRight: Radius.circular(32),
-          ),
+          color: const Color(0xFFE8FBF9), // Retain original white-ish background
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -48,33 +44,39 @@ class _NavigationMenuState extends State<NavigationMenu> {
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent, // Retain transparent to show Container's color
           elevation: 0,
-          selectedItemColor: const Color(0xFF0B5F6D),
-          unselectedItemColor: Colors.black,
+          selectedItemColor: const Color(0xFF0B5F6D), // Retain original selected item color
+          unselectedItemColor: Colors.black, // Retain original unselected item color
           showSelectedLabels: false,
           showUnselectedLabels: false,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          items: const [
+          iconSize: 28, // Slightly larger icons to match taller bar
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: _buildNavIcon('assets/icons/home.png', 0),
+              activeIcon: _buildNavIcon('assets/icons/home.png', 0, isSelected: true),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.public),
+              icon: _buildNavIcon('assets/icons/peta.png', 1),
+              activeIcon: _buildNavIcon('assets/icons/peta.png', 1, isSelected: true),
               label: 'Peta Pohon',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart),
+              icon: _buildNavIcon('assets/icons/report.png', 2),
+              activeIcon: _buildNavIcon('assets/icons/report.png', 2, isSelected: true),
               label: 'Statistik',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none),
+              icon: _buildNavIcon('assets/icons/notification.png', 3),
+              activeIcon: _buildNavIcon('assets/icons/notification.png', 3, isSelected: true),
               label: 'Notifikasi',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
+              icon: _buildNavIcon('assets/icons/profile.png', 4),
+              activeIcon: _buildNavIcon('assets/icons/profile.png', 4, isSelected: true),
               label: 'Profil',
             ),
           ],
@@ -82,4 +84,21 @@ class _NavigationMenuState extends State<NavigationMenu> {
       ),
     );
   }
+Widget _buildNavIcon(String assetPath, int index, {bool isSelected = false}) {
+    return SizedBox(
+      width: 28,
+      height: 28,
+      child: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          isSelected ? const Color(0xFF0B5F6D) : Colors.black.withOpacity(0.7),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset(
+          assetPath,
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
+
 }
