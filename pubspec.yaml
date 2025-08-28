@@ -1,4 +1,3 @@
-
 name: flutter_application_2
 description: "A new Flutter project."
 publish_to: 'none'
@@ -12,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  url_launcher: ^6.3.0  # Untuk link jika diperlukan
+  google_maps_flutter: ^2.9.0  # Package untuk Google Maps
 
 dev_dependencies:
   flutter_test:
@@ -24,13 +25,19 @@ flutter:
   assets:
     - assets/logo/logo.png
     - assets/icons/
+    - assets/icons/report.png
+    - assets/icons/home.png
+    - assets/icons/peta.png
+    - assets/icons/report.png
+    - assets/icons/notification.png
+    - assets/icons/profile.png
   
   fonts:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Black.ttf
           weight: 900
-        - asset: assets/fonts/Poppins-BlackItalic.ttf  # Tambahkan path lengkap
+        - asset: assets/fonts/Poppins-BlackItalic.ttf
           weight: 900
           style: italic
         - asset: assets/fonts/Poppins-Bold.ttf
@@ -72,4 +79,3 @@ flutter:
         - asset: assets/fonts/Poppins-ThinItalic.ttf
           weight: 100
           style: italic
-

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
 import 'page/home_page.dart';
+import 'page/peta_pohon/map_page.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({Key? key}) : super(key: key);
@@ -12,12 +12,12 @@ class NavigationMenu extends StatefulWidget {
 class _NavigationMenuState extends State<NavigationMenu> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Center(child: Text('Page 2')),
-    Center(child: Text('Page 3')),
-    Center(child: Text('Page 4')),
-    Center(child: Text('Page 5')),
+    const MapPage(),
+    const Center(child: Text('Page 3')),
+    const Center(child: Text('Page 4')),
+    const Center(child: Text('Page 5')),
   ];
 
   void _onItemTapped(int index) {
@@ -26,73 +26,79 @@ class _NavigationMenuState extends State<NavigationMenu> {
     });
   }
 
-  static const List<String> _iconAssets = [
-    'assets/icons/home.png',
-    'assets/icons/peta.png',
-    'assets/icons/report.png',
-    'assets/icons/notification.png',
-    'assets/icons/profile.png',
-  ];
-
-  Widget _buildNavItem(int index) {
-    final bool isActive = _selectedIndex == index;
-    return GestureDetector(
-      onTap: () => _onItemTapped(index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        margin: const EdgeInsets.only(top: 6, bottom: 20, left: 2, right: 2),
-        padding: const EdgeInsets.all(8),
-        decoration: isActive
-            ? BoxDecoration(
-                color: AppColors.tealGelap,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.18),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              )
-            : null,
-        child: Image.asset(
-          _iconAssets[index],
-          width: 28,
-          height: 28,
-          color: isActive ? const Color.fromARGB(255, 0, 0, 0) : AppColors.black, // Use tealGelap for active state
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: Container(
-        height: 120,
+        height: 70, // Slightly taller than default (~56px)
         decoration: BoxDecoration(
-          color: AppColors.putihKebiruan,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(32),
-            topRight: Radius.circular(32),
-          ),
+          color: const Color(0xFFE8FBF9), // Retain original white-ish background
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, -1),
             ),
           ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            for (int i = 0; i < 5; i++) _buildNavItem(i),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.transparent, // Retain transparent to show Container's color
+          elevation: 0,
+          selectedItemColor: const Color(0xFF0B5F6D), // Retain original selected item color
+          unselectedItemColor: Colors.black, // Retain original unselected item color
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          iconSize: 28, // Slightly larger icons to match taller bar
+          items: [
+            BottomNavigationBarItem(
+              icon: _buildNavIcon('assets/icons/home.png', 0),
+              activeIcon: _buildNavIcon('assets/icons/home.png', 0, isSelected: true),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildNavIcon('assets/icons/peta.png', 1),
+              activeIcon: _buildNavIcon('assets/icons/peta.png', 1, isSelected: true),
+              label: 'Peta Pohon',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildNavIcon('assets/icons/report.png', 2),
+              activeIcon: _buildNavIcon('assets/icons/report.png', 2, isSelected: true),
+              label: 'Statistik',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildNavIcon('assets/icons/notification.png', 3),
+              activeIcon: _buildNavIcon('assets/icons/notification.png', 3, isSelected: true),
+              label: 'Notifikasi',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildNavIcon('assets/icons/profile.png', 4),
+              activeIcon: _buildNavIcon('assets/icons/profile.png', 4, isSelected: true),
+              label: 'Profil',
+            ),
           ],
         ),
       ),
     );
   }
+Widget _buildNavIcon(String assetPath, int index, {bool isSelected = false}) {
+    return SizedBox(
+      width: 28,
+      height: 28,
+      child: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          isSelected ? const Color(0xFF0B5F6D) : Colors.black.withOpacity(0.7),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset(
+          assetPath,
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
+
 }
