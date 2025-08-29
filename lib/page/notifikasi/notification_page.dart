@@ -1,92 +1,5 @@
-// File: lib/navigation_menu.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/page/home_page.dart';
-import 'package:flutter_application_2/page/peta_pohon/map_page.dart';
-import 'package:flutter_application_2/page/profil/profile_page.dart';
-import 'package:flutter_application_2/page/profil/setting_page.dart';
 
-class NavigationMenu extends StatefulWidget {
-  const NavigationMenu({Key? key}) : super(key: key);
-
-  @override
-  State<NavigationMenu> createState() => _NavigationMenuState();
-}
-
-class _NavigationMenuState extends State<NavigationMenu> {
-  int _selectedIndex = 0;
-
-  static final List<Widget> _widgetOptions = <Widget>[
-    const HomePage(),
-    const MapPage(),
-    const Center(child: Text('Page 3')),
-    const NotificationPage(), // Page 4 - NotificationPage
-    const SettingsPage(), // <-- diarahkan dulu ke Settings menu
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _widgetOptions[_selectedIndex],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFE8FBF9),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(32),
-            topRight: Radius.circular(32),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -1),
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          selectedItemColor: const Color(0xFF0B5F6D),
-          unselectedItemColor: Colors.black,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.public),
-              label: 'Peta Pohon',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart),
-              label: 'Statistik',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none),
-              label: 'Notifikasi',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              label: 'Profil',
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// NotificationPage - Integrated directly in navigation_menu.dart
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
 
@@ -98,7 +11,6 @@ class NotificationPage extends StatelessWidget {
         backgroundColor: const Color(0xFF2E5D6F),
         elevation: 0,
         centerTitle: true,
-        automaticallyImplyLeading: false, // Remove back button since this is in navigation
         title: const Text(
           "Notifikasi",
           style: TextStyle(
@@ -107,6 +19,7 @@ class NotificationPage extends StatelessWidget {
             color: Color(0xFFFFD700), // kuning
           ),
         ),
+        leading: const SizedBox(), // Remove back button if not needed
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -121,20 +34,60 @@ class NotificationPage extends StatelessWidget {
           children: [
             _buildSectionTitle("Hari ini"),
             const SizedBox(height: 8),
-            _buildNotificationItem("17:00", "April 24"),
-            _buildNotificationItem("15:30", "April 24"),
+            _buildNotificationItem(),
+            _buildNotificationItem(),
             const SizedBox(height: 24),
             _buildSectionTitle("Kemarin"),
             const SizedBox(height: 8),
-            _buildNotificationItem("17:00", "April 23"),
-            _buildNotificationItem("14:20", "April 23"),
+            _buildNotificationItem(),
+            _buildNotificationItem(),
             const SizedBox(height: 24),
             _buildSectionTitle("Minggu ini"),
             const SizedBox(height: 8),
-            _buildNotificationItem("17:00", "April 22"),
-            _buildNotificationItem("16:45", "April 21"),
+            _buildNotificationItem(),
+            _buildNotificationItem(),
           ],
         ),
+      ),
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildBottomNavItem(Icons.home_outlined, false),
+            _buildBottomNavItem(Icons.phone_outlined, false),
+            _buildBottomNavItem(Icons.calendar_today_outlined, false),
+            _buildBottomNavItem(Icons.notifications, true), // Active notification icon
+            _buildBottomNavItem(Icons.person_outline, false),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavItem(IconData icon, bool isActive) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: isActive
+          ? const BoxDecoration(
+              color: Color(0xFF2E5D6F),
+              shape: BoxShape.circle,
+            )
+          : null,
+      child: Icon(
+        icon,
+        color: isActive ? Colors.white : Colors.grey,
+        size: 24,
       ),
     );
   }
@@ -150,9 +103,9 @@ class NotificationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationItem(String time, String date) {
+  Widget _buildNotificationItem() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -211,7 +164,7 @@ class NotificationPage extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    "$time - $date",
+                    "17:00 - April 24",
                     style: TextStyle(
                       fontSize: 11,
                       color: Colors.blue.shade600,
