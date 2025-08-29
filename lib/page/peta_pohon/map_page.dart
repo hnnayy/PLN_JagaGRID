@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import '../../providers/data_pohon_provider.dart';
+import '../../models/data_pohon.dart';
 import '../../constants/colors.dart';
-
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -14,24 +15,13 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   late GoogleMapController _mapController;
   final LatLng _initialPosition = const LatLng(-4.0167, 120.1833); // Pare, Sulawesi
-  final Set<Marker> _markers = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _markers.clear();
-    _markers.add(
-      Marker(
-        markerId: const MarkerId('pare'),
-        position: _initialPosition,
-        infoWindow: const InfoWindow(title: 'Pare, Sulawesi'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-      ),
-    );
-  }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+  }
+
+  void _addMarker(LatLng pos) {
+    // Biar cuma tambah marker dari AddDataPage, kosongin dulu
   }
 
   @override
@@ -96,16 +86,32 @@ class _MapPageState extends State<MapPage> {
                     topLeft: Radius.circular(32),
                     topRight: Radius.circular(32),
                   ),
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _initialPosition,
-                      zoom: 11.0,
-                    ),
-                    markers: _markers,
-                    onTap: _addMarker,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
+                  child: Consumer<DataPohonProvider>(
+                    builder: (ctx, provider, _) {
+                      Set<Marker> markers = provider.pohonList.map((pohon) {
+                        List<String> coords = pohon.koordinat.split(',');
+                        double lat = double.tryParse(coords[0]) ?? 0.0;
+                        double lng = double.tryParse(coords[1]) ?? 0.0;
+                        return Marker(
+                          markerId: MarkerId(pohon.id),
+                          position: LatLng(lat, lng),
+                          infoWindow: InfoWindow(title: pohon.namaPohon),
+                          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+                        );
+                      }).toSet();
+
+                      return GoogleMap(
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: _initialPosition,
+                          zoom: 11.0,
+                        ),
+                        markers: markers,
+                        onTap: _addMarker,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                      );
+                    },
                   ),
                 ),
               ),
@@ -114,20 +120,5 @@ class _MapPageState extends State<MapPage> {
         ),
       ),
     );
-  }
-
-  void _addMarker(LatLng pos) {
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: MarkerId(pos.toString()),
-          position: pos,
-          infoWindow: InfoWindow(
-            title: 'Marker',
-            snippet: '(${pos.latitude}, ${pos.longitude})',
-          ),
-        ),
-      );
-    });
   }
 }
