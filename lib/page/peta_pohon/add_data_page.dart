@@ -302,10 +302,35 @@ class _AddDataPageState extends State<AddDataPage> {
                           );
 
                           await Provider.of<DataPohonProvider>(context, listen: false).addPohon(pohon, _fotoPohon);
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan!')));
+                          if (!mounted) return;
+                          await showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text('Sukses!', style: TextStyle(color: Colors.green)),
+                              content: const Text('Data pohon berhasil disimpan.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                           Navigator.pop(context);
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error menyimpan data: $e')));
+                          await showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text('Gagal!', style: TextStyle(color: Colors.red)),
+                              content: Text('Terjadi kesalahan saat menyimpan data:\n${e.toString()}'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       }
                     }

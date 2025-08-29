@@ -11,9 +11,13 @@ class DataPohonService {
     try {
       String fotoUrl = '';
       if (fotoFile != null) {
+        if (!fotoFile.existsSync()) {
+          print('File foto tidak ditemukan: \'${fotoFile.path}\'');
+          throw Exception('File foto tidak ditemukan di device. Pastikan memilih foto dari kamera/gallery device, bukan path PC.');
+        }
         // Buat nama file unik dengan timestamp
         String fileName = '${DateTime.now().millisecondsSinceEpoch}_${pohon.idPohon}.jpg';
-        final ref = _storage.ref().child('foto_pohon/$fileName'); // Gunakan .child() untuk konsistensi
+        final ref = _storage.ref().child('foto_pohon/$fileName');
         UploadTask uploadTask = ref.putFile(fotoFile);
         TaskSnapshot snapshot = await uploadTask.timeout(const Duration(seconds: 30));
         if (snapshot.state == TaskState.success) {

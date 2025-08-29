@@ -46,7 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '286252921212',
     projectId: 'pln-jagagrid-97b30',
     authDomain: 'pln-jagagrid-97b30.firebaseapp.com',
-    storageBucket: 'pln-jagagrid-97b30.firebasestorage.app',
+  storageBucket: 'pln-jagagrid-97b30.appspot.com',
     measurementId: 'G-TEZECWFRXQ',
   );
 
@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
     appId: '1:286252921212:android:2cf0fda04f90b451d4b4f9',
     messagingSenderId: '286252921212',
     projectId: 'pln-jagagrid-97b30',
-    storageBucket: 'pln-jagagrid-97b30.firebasestorage.app',
+  storageBucket: 'pln-jagagrid-97b30.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:286252921212:ios:b4e40a3d0926cfa3d4b4f9',
     messagingSenderId: '286252921212',
     projectId: 'pln-jagagrid-97b30',
-    storageBucket: 'pln-jagagrid-97b30.firebasestorage.app',
+  storageBucket: 'pln-jagagrid-97b30.appspot.com',
     iosBundleId: 'com.example.flutterApplication2',
   );
 
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     appId: '1:286252921212:ios:b4e40a3d0926cfa3d4b4f9',
     messagingSenderId: '286252921212',
     projectId: 'pln-jagagrid-97b30',
-    storageBucket: 'pln-jagagrid-97b30.firebasestorage.app',
+  storageBucket: 'pln-jagagrid-97b30.appspot.com',
     iosBundleId: 'com.example.flutterApplication2',
   );
 
@@ -82,7 +82,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '286252921212',
     projectId: 'pln-jagagrid-97b30',
     authDomain: 'pln-jagagrid-97b30.firebaseapp.com',
-    storageBucket: 'pln-jagagrid-97b30.firebasestorage.app',
+  storageBucket: 'pln-jagagrid-97b30.appspot.com',
     measurementId: 'G-WS933HBLE8',
   );
 
