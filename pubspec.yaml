@@ -13,7 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   url_launcher: ^6.3.0  # Untuk link jika diperlukan
   google_maps_flutter: ^2.9.0  # Package untuk Google Maps
-  dropdown_search: ^6.0.1 
+  dropdown_search: ^5.0.6 
 
 dev_dependencies:
   flutter_test:
